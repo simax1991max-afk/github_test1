@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Тест · Нумерология 1.1 · Путешествие чисел</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-S..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    :root {
+      --gold:       #f0b429;
+      --gold-light: #ffd870;
+      --gold-pale:  #f5e6b0;
+      --gold-dark:  #a06808;
+      --amber:      #ff8c00;
+      --fire:       #ff4500;
+      --black:      #050305;
+      --text:       #f5e8c8;
+      --text-dim:   #c4a96a;
+      --text-muted: #7a5a30;
+      --green:      #6dba7a;
+      --red:        #e05050;
+      --border:     #3d2410;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Crimson Text', Georgia, serif;
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #particle-canvas {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.45;
+    }
+
+    .wrapper {
+      position: relative; z-index: 10;
+      max-width: 960px; margin: 0 auto;
+      padding: 3rem 1.5rem 7rem;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.8rem; font-weight: 900;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      background: linear-gradient(135deg, #fff8e0, var(--gold), var(--amber));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-align: center; margin-bottom: 0.6rem;
+      filter: drop-shadow(0 0 18px rgba(240,180,41,0.6));
+      animation: shimmerGold 7s linear infinite;
+    }
+
+    .subtitle {
+      text-align: center; color: var(--text-dim);
+      font-size: 1.18rem; margin-bottom: 3.5rem;
+    }
+
+    @keyframes shimmerGold {
+      0%,100% { background-position: -200% 0; }
+      100%    { background-position: 200% 0; }
+    }
+
+    .question {
+      background: linear-gradient(145deg, rgba(20,10,5,0.94), rgba(10,5,2,0.97));
+      border: 1px solid rgba(240,180,41,0.22);
+      border-radius: 4px; padding: 1.9rem 2.2rem;
+      margin-bottom: 2.4rem;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.75), inset 0 1px 0 rgba(240,180,41,0.05);
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    }
+
+    .q-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.48rem; color: var(--gold-pale);
+      margin-bottom: 1.4rem; letter-spacing: 0.04em;
+    }
+
+    .options {
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .option {
+      display: flex; align-items: center;
+      padding: 1rem 1.3rem;
+      background: rgba(240,180,41,0.04);
+      border: 1px solid rgba(240,180,41,0.20);
+      border-radius: 4px; cursor: pointer;
+      transition: all 0.25s;
+      user-select: none;
+    }
+
+    .option:hover {
+      background: rgba(240,180,41,0.13);
+      border-color: rgba(240,180,41,0.50);
+      transform: translateX(4px);
+    }
+
+    .option input[type="radio"] {
+      margin-right: 1.1rem; accent-color: var(--gold); transform: scale(1.15);
+    }
+
+    .option label {
+      flex: 1; cursor: pointer;
+      color: var(--text);
+    }
+
+    .feedback {
+      margin-top: 1.4rem; padding: 1.1rem 1.4rem;
+      border-radius: 4px; font-size: 1.04rem; line-height: 1.5;
+      display: none;
+    }
+
+    .feedback.correct {
+      background: rgba(109,186,122,0.16);
+      border: 1px solid var(--green);
+      color: #d8f0db;
+    }
+
+    .feedback.wrong {
+      background: rgba(224,80,80,0.16);
+      border: 1px solid var(--red);
+      color: #ffd8d8;
+    }
+
+    .feedback i { margin-right: 0.8rem; font-size: 1.45rem; }
+
+    .controls {
+      text-align: center; margin: 4.5rem 0 3rem;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.9rem;
+      padding: 1rem 2.6rem; margin: 0 1rem 1rem;
+      font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.12rem;
+      background: linear-gradient(135deg, var(--amber), var(--gold));
+      color: #0a0500; border: none; border-radius: 4px;
+      cursor: pointer; transition: all 0.3s;
+      box-shadow: 0 5px 20px rgba(240,140,30,0.45);
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(240,140,30,0.6); }
+
+    .btn-secondary {
+      background: rgba(240,180,41,0.09);
+      color: var(--gold-pale);
+      border: 1px solid rgba(240,180,41,0.40);
+    }
+
+    .score-panel {
+      text-align: center; margin: 5rem 0 3rem;
+      font-size: 2.6rem; font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      text-shadow: 0 0 24px rgba(240,180,41,0.8);
+      opacity: 0; transition: opacity 1s;
+    }
+
+    .score-panel.visible { opacity: 1; }
+
+    footer {
+      text-align: center; color: var(--text-muted);
+      margin-top: 6rem; padding-top: 2.5rem;
+      border-top: 1px solid rgba(240,180,41,0.18);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<div class="wrapper">
+
+  <h1>ТЕСТ ПО УРОКУ 1.1</h1>
+  <div class="subtitle">Путешествие чисел · Нумерология 7М</div>
+
+  <form id="quizForm">
+
+    <!-- 1 -->
+    <div class="question" data-correct="C">
+      <div class="q-title">1. Сколько месяцев длится весь курс нумерологии?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="A"> A. 5 месяцев</label>
+        <label class="option"><input type="radio" name="q1" value="B"> B. 6 месяцев</label>
+        <label class="option"><input type="radio" name="q1" value="C"> C. 7 месяцев</label>
+        <label class="option"><input type="radio" name="q1" value="D"> D. 9 месяцев</label>
+      </div>
+      <div class="feedback" data-text="7 месяцев — это продуманный путь, который позволяет не только получить знания, но и глубоко интегрировать их в жизнь и блог. Ты получишь полноценный трансформационный опыт!"></div>
+    </div>
+
+    <!-- 2 -->
+    <div class="question" data-correct="D">
+      <div class="q-title">2. Какой месяц курса полностью бесплатный и посвящён духовному измерению?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="A"> A. Первый</label>
+        <label class="option"><input type="radio" name="q2" value="B"> B. Третий</label>
+        <label class="option"><input type="radio" name="q2" value="C"> C. Пятый</label>
+        <label class="option"><input type="radio" name="q2" value="D"> D. Седьмой</label>
+      </div>
+      <div class="feedback" data-text="Седьмой месяц — это подарок и кульминация пути: медитации, мантры и молитвы помогут почувствовать нумерологию сердцем и душой."></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="question" data-correct="D">
+      <div class="q-title">3. В каком мессенджере проходят видеоуроки и общение группы?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="A"> A. WhatsApp</label>
+        <label class="option"><input type="radio" name="q3" value="B"> B. ВКонтакте</label>
+        <label class="option"><input type="radio" name="q3" value="C"> C. Discord</label>
+        <label class="option"><input type="radio" name="q3" value="D"> D. Telegram</label>
+      </div>
+      <div class="feedback" data-text="Закрытая группа в Telegram — место твоего роста, живого общения и настоящих блогерских прорывов!"></div>
+    </div>
+
+    <!-- 4 -->
+    <div class="question" data-correct="B">
+      <div class="q-title">4. Для какой категории студентов обязательно выполнять домашние задания?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="A"> A. Для всех без исключения</label>
+        <label class="option"><input type="radio" name="q4" value="B"> B. Только для активных блогеров</label>
+        <label class="option"><input type="radio" name="q4" value="C"> C. Для пассивных слушателей</label>
+        <label class="option"><input type="radio" name="q4" value="D"> D. Для тех, кто оплатил весь курс сразу</label>
+      </div>
+      <div class="feedback" data-text="Если ты горишь желанием создавать контент и расти — задания и личная обратная связь станут твоим самым быстрым лифтом к реальным результатам в TikTok и не только."></div>
+    </div>
+
+    <!-- 5 -->
+    <div class="question" data-correct="C">
+      <div class="q-title">5. Что можно сделать с обучением, если возникла необходимость прерваться?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="A"> A. Придётся начинать курс заново</label>
+        <label class="option"><input type="radio" name="q5" value="B"> B. Можно получить возврат денег</label>
+        <label class="option"><input type="radio" name="q5" value="C"> C. Можно поставить на паузу и возобновить без потери прогресса</label>
+        <label class="option"><input type="radio" name="q5" value="D"> D. Доступ к материалам сгорает через 30 дней</label>
+      </div>
+      <div class="feedback" data-text="Жизнь непредсказуема, но твой прогресс остаётся с тобой навсегда. Пауза — это нормально, главное — вернуться и дойти до конца!"></div>
+    </div>
+
+    <!-- 6 -->
+    <div class="question" data-correct="B">
+      <div class="q-title">6. Какая африканская система упоминается как одна из древнейших с 256 комбинациями судьбы?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q6" value="A"> A. Зороастрийская</label>
+        <label class="option"><input type="radio" name="q6" value="B"> B. Система Ифа (Yoruba)</label>
+        <label class="option"><input type="radio" name="q6" value="C"> C. Гематрия</label>
+        <label class="option"><input type="radio" name="q6" value="D"> D. Катапаяди</label>
+      </div>
+      <div class="feedback" data-text="Система Ифа — живое доказательство, что нумерология родилась не вчера. Осваивая её корни, ты подключаешься к тысячелетней мудрости предков."></div>
+    </div>
+
+    <!-- 7 -->
+    <div class="question" data-correct="C">
+      <div class="q-title">7. В какой древней традиции числа связывали с храмом, животными-тотемами и божественным?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q7" value="A"> A. Китайская</label>
+        <label class="option"><input type="radio" name="q7" value="B"> B. Майя</label>
+        <label class="option"><input type="radio" name="q7" value="C"> C. Древнеегипетская</label>
+        <label class="option"><input type="radio" name="q7" value="D"> D. Пифагорейская</label>
+      </div>
+      <div class="feedback" data-text="Египетская нумерология учит видеть священное в каждом символе. Это вдохновляет создавать контент, который завораживает и поднимает вибрации зрителей."></div>
+    </div>
+
+    <!-- 8 -->
+    <div class="question" data-correct="C">
+      <div class="q-title">8. Какая система связывает звуки санскрита, буквы и числа для преобразования слов в числовые значения?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q8" value="A"> A. Гематрия</label>
+        <label class="option"><input type="radio" name="q8" value="B"> B. Изопсефия</label>
+        <label class="option"><input type="radio" name="q8" value="C"> C. Катапаяди</label>
+        <label class="option"><input type="radio" name="q8" value="D"> D. Ифа</label>
+      </div>
+      <div class="feedback" data-text="Катапаяди — это древний «код вселенной» в звуках. Овладев им, ты сможешь раскрывать скрытые смыслы имён и названий как настоящий мастер."></div>
+    </div>
+
+    <!-- 9 -->
+    <div class="question" data-correct="B">
+      <div class="q-title">9. Как называется еврейская мистическая буквенно-числовая система?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q9" value="A"> A. Изопсефия</label>
+        <label class="option"><input type="radio" name="q9" value="B"> B. Гематрия</label>
+        <label class="option"><input type="radio" name="q9" value="C"> C. Суфийская нумерология</label>
+        <label class="option"><input type="radio" name="q9" value="D"> D. Анка-шастра</label>
+      </div>
+      <div class="feedback" data-text="Гематрия — это мост между буквой и числом, между словом и космосом. Работая с ней, ты открываешь двери к очень глубокому и точному пониманию."></div>
+    </div>
+
+    <!-- 10 -->
+    <div class="question" data-correct="C">
+      <div class="q-title">10. Какая цивилизация связана с развитием 64 гексаграмм и дуальностью инь-ян в нумерологии?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q10" value="A"> A. Индия</label>
+        <label class="option"><input type="radio" name="q10" value="B"> B. Месопотамия</label>
+        <label class="option"><input type="radio" name="q10" value="C"> C. Китай</label>
+        <label class="option"><input type="radio" name="q10" value="D"> D. Персия</label>
+      </div>
+      <div class="feedback" data-text="64 гексаграммы — это целая карта жизненных изменений. Изучая китайскую традицию, ты начинаешь видеть закономерности там, где другие видят хаос."></div>
+    </div>
+
+    <!-- 11 -->
+    <div class="question" data-correct="C">
+      <div class="q-title">11. Что автор курса называет настоящей целью нумерологии (в отличие от магии)?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q11" value="A"> A. Предсказание будущего с помощью карт</label>
+        <label class="option"><input type="radio" name="q11" value="B"> B. Получение власти над другими</label>
+        <label class="option"><input type="radio" name="q11" value="C"> C. Божественное знание и понимание законов бытия</label>
+        <label class="option"><input type="radio" name="q11" value="D"> D. Развлечение и лёгкие гадания</label>
+      </div>
+      <div class="feedback" data-text="Настоящая нумерология — это не игра, а священный путь к истине. Идя по нему, ты становишься проводником света, а не манипулятором."></div>
+    </div>
+
+    <!-- 12 -->
+    <div class="question" data-correct="C">
+      <div class="q-title">12. В каком веке арабский мир активно развивал суфийскую нумерологию и числовой анализ Корана?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q12" value="A"> A. III век</label>
+        <label class="option"><input type="radio" name="q12" value="B"> B. V век</label>
+        <label class="option"><input type="radio" name="q12" value="C"> C. VII век и позже</label>
+        <label class="option"><input type="radio" name="q12" value="D"> D. X век</label>
+      </div>
+      <div class="feedback" data-text="Суфии превратили числа в мистический язык любви к Богу. Это напоминание, что нумерология может быть не только знанием, но и дорогой к Сердцу."></div>
+    </div>
+
+    <!-- 13 -->
+    <div class="question" data-correct="B">
+      <div class="q-title">13. Какая школа считается основоположницей философской нумерологии в античности?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q13" value="A"> A. Платоновская академия</label>
+        <label class="option"><input type="radio" name="q13" value="B"> B. Пифагорейская школа</label>
+        <label class="option"><input type="radio" name="q13" value="C"> C. Стоицизм</label>
+        <label class="option"><input type="radio" name="q13" value="D"> D. Эпикурейцы</label>
+      </div>
+      <div class="feedback" data-text="Пифагор и его ученики увидели в числах музыку космоса. Осваивая их подход, ты начинаешь слышать гармонию мира — и передавать её другим."></div>
+    </div>
+
+    <!-- 14 -->
+    <div class="question" data-correct="C">
+      <div class="q-title">14. Что подчёркивает автор как главное условие для получения личного наставничества?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q14" value="A"> A. Оплата сразу за весь курс</label>
+        <label class="option"><input type="radio" name="q14" value="B"> B. Возраст старше 25 лет</label>
+        <label class="option"><input type="radio" name="q14" value="C"> C. Честное желание стать блогером и активная работа</label>
+        <label class="option"><input type="radio" name="q14" value="D"> D. Наличие уже существующего канала</label>
+      </div>
+      <div class="feedback" data-text="Честность перед собой и действие — вот что открывает дверь к личной поддержке. Когда ты горишь — наставник идёт рядом и помогает взлететь."></div>
+    </div>
+
+    <!-- 15 -->
+    <div class="question" data-correct="C">
+      <div class="q-title">15. Какой континент автор называет одним из самых ранних очагов зарождения нумерологического сознания?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q15" value="A"> A. Европа</label>
+        <label class="option"><input type="radio" name="q15" value="B"> B. Азия</label>
+        <label class="option"><input type="radio" name="q15" value="C"> C. Африка</label>
+        <label class="option"><input type="radio" name="q15" value="D"> D. Америка</label>
+      </div>
+      <div class="feedback" data-text="Африка — колыбель нумерологического сознания человечества. Прикасаясь к этим корням, ты обретаешь силу древней мудрости и уверенность в своём пути."></div>
+    </div>
+
+  </form>
+
+  <div class="controls">
+    <button type="button" class="btn" id="checkBtn"><i class="fas fa-check-circle"></i> ПРОВЕРИТЬ ОТВЕТЫ</button>
+    <button type="button" class="btn btn-secondary" id="resetBtn"><i class="fas fa-redo"></i> НАЧАТЬ ЗАНОВО</button>
+  </div>
+
+  <div class="score-panel" id="scorePanel">
+    <div>Твой результат: <span id="scoreText">0</span> из 15</div>
+  </div>
+
+  <footer>
+    <p>Нумерология 7М · урок 1.1 · тест · 2025–2026</p>
+  </footer>
+
+</div>
+
+<script>
+// Частицы огня
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let w, h, particles = [];
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+  particles = Array.from({length:90}, () => ({
+    x: Math.random()*w, y: Math.random()*h,
+    r: Math.random()*2.6 + 0.4,
+    vx: (Math.random()-0.5)*0.28,
+    vy: (Math.random()-0.5)*0.22 - 0.07,
+    o: Math.random()*0.58 + 0.10,
+    hue: 16 + Math.random()*52
+  }));
+}
+
+function animate() {
+  ctx.clearRect(0,0,w,h);
+  particles.forEach(p => {
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle = `hsla(${p.hue},94%,63%,${p.o})`;
+    ctx.fill();
+    p.x += p.vx; p.y += p.vy;
+    if(p.x<0||p.x>w) p.x = (p.x<0)?w:0;
+    if(p.y<0||p.y>h) p.y = (p.y<0)?h:0;
+    p.hue += (Math.random()-0.5)*2.8;
+    p.hue = Math.max(12, Math.min(72, p.hue));
+  });
+  requestAnimationFrame(animate);
+}
+
+window.addEventListener('resize', resize);
+resize(); animate();
+
+// Логика теста
+const questions = document.querySelectorAll('.question');
+const checkBtn = document.getElementById('checkBtn');
+const resetBtn = document.getElementById('resetBtn');
+const scorePanel = document.getElementById('scorePanel');
+const scoreText = document.getElementById('scoreText');
+
+checkBtn.addEventListener('click', () => {
+  let correct = 0;
+
+  questions.forEach(q => {
+    const selected = q.querySelector('input:checked');
+    const feedback = q.querySelector('.feedback');
+    const correctVal = q.dataset.correct;
+
+    feedback.style.display = 'block';
+
+    if (selected && selected.value === correctVal) {
+      correct++;
+      feedback.className = 'feedback correct';
+      feedback.innerHTML = `<i class="fas fa-check-circle"></i> ${feedback.dataset.text}`;
+    } else {
+      feedback.className = 'feedback wrong';
+      feedback.innerHTML = `<i class="fas fa-times-circle"></i> Неправильно.<br>Правильный ответ → ${correctVal}<br><br>${feedback.dataset.text}`;
+    }
+  });
+
+  scoreText.textContent = correct;
+  scorePanel.classList.add('visible');
+  scorePanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+resetBtn.addEventListener('click', () => {
+  document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+  document.querySelectorAll('.feedback').forEach(f => {
+    f.style.display = 'none';
+    f.className = 'feedback';
+  });
+  scorePanel.classList.remove('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+
+</body>
+</html>

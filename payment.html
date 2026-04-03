@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Нумерология 7М · Оплата курса</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/shared.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    /* ══════════════════════════════════════
+       PAYMENT PAGE — SPECIFIC STYLES
+    ══════════════════════════════════════ */
+
+    .pay-layout {
+      position: relative; z-index: 5;
+      max-width: 1080px; margin: 0 auto;
+      padding: 40px 2rem 80px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 32px; align-items: start;
+    }
+
+    /* ── Page Header ── */
+    .pay-header {
+      position: relative; z-index: 5;
+      text-align: center; padding: 60px 2rem 0;
+    }
+    .pay-header .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 6px 18px;
+      background: rgba(240,180,41,.08); border: 1px solid rgba(240,180,41,.2);
+      border-radius: 2px; font-family: 'Cinzel', serif;
+      font-size: .72rem; letter-spacing: .12em; color: var(--gold2);
+      margin-bottom: 20px;
+    }
+    .pay-header h1 {
+      font-family: 'Cinzel', serif; font-weight: 900;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem); letter-spacing: .03em;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff8e0, var(--gold), var(--amber));
+      background-size: 200% auto; -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text;
+      animation: shimmerGold 5s linear infinite;
+    }
+    .pay-header p { color: var(--text2); font-size: 1rem; }
+
+    /* ── Tabs ── */
+    .pay-tabs {
+      display: flex; background: rgba(0,0,0,.5);
+      border: 1px solid var(--border2); border-radius: 4px;
+      padding: 6px; margin-bottom: 24px; gap: 6px;
+    }
+    .pay-tab {
+      flex: 1; padding: 12px 8px; border: none;
+      border-radius: 2px; background: transparent;
+      color: var(--text3); font-family: 'Cinzel', serif;
+      font-size: .75rem; font-weight: 700; letter-spacing: .04em;
+      cursor: pointer; transition: all .3s; text-align: center; line-height: 1.4;
+    }
+    .pay-tab:hover { color: var(--text2); background: rgba(240,180,41,.06); }
+    .pay-tab.active {
+      background: linear-gradient(135deg, var(--amber), var(--gold));
+      color: #0a0500;
+      box-shadow: 0 2px 16px rgba(240,140,30,.4);
+    }
+    .pay-tab .tab-icon { font-size: 1.1rem; display: block; margin-bottom: 4px; }
+    .pay-tab .tab-label { display: block; }
+    .pay-tab .tab-sub { display: block; font-size: .68rem; opacity: .7; font-weight: 400; }
+
+    /* ── Tab Panels ── */
+    .tab-panel { display: none; animation: fadeIn .35s ease; }
+    .tab-panel.active { display: block; }
+
+    /* ── Payment Card ── */
+    .pay-card {
+      background: linear-gradient(145deg, rgba(20,10,5,.97), rgba(10,5,2,.99));
+      border: 1px solid rgba(240,180,41,.25);
+      border-radius: 4px; padding: 32px;
+      box-shadow: 0 0 60px rgba(200,100,10,.1);
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+    }
+
+    .pay-card-title {
+      font-family: 'Cinzel', serif; font-size: 1.05rem; font-weight: 700;
+      color: var(--text); margin-bottom: 6px; letter-spacing: .04em;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .pay-card-title i { color: var(--gold2); }
+    .pay-card-sub { font-size: .87rem; color: var(--text3); margin-bottom: 28px; }
+
+    /* ── QR Code ── */
+    .qr-wrap {
+      display: flex; justify-content: center; margin: 24px 0;
+    }
+    .qr-box {
+      background: #fff; padding: 16px; border-radius: 4px;
+      box-shadow: 0 0 40px rgba(240,180,41,.2);
+      border: 2px solid rgba(240,180,41,.3);
+    }
+
+    /* ── Bank details ── */
+    .detail-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+    .detail-row:last-of-type { border-bottom: none; }
+    .detail-label { font-family: 'Cinzel', serif; font-size: .72rem; letter-spacing: .06em; color: var(--text3); flex-shrink: 0; }
+    .detail-value { font-family: 'Orbitron', monospace; font-size: .82rem; color: var(--text); text-align: right; word-break: break-all; }
+
+    /* ── Copy buttons ── */
+    .copy-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .btn-copy {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 18px;
+      background: rgba(240,180,41,.08); border: 1px solid rgba(240,180,41,.25);
+      border-radius: 2px; color: var(--gold2);
+      font-family: 'Cinzel', serif; font-size: .75rem; letter-spacing: .05em;
+      cursor: pointer; transition: all .25s;
+    }
+    .btn-copy:hover { background: rgba(240,180,41,.15); color: var(--gold); }
+
+    /* ── Alert boxes ── */
+    .alert {
+      padding: 14px 18px; border-radius: 2px;
+      font-size: .88rem; line-height: 1.6; margin-top: 20px;
+    }
+    .alert-gold {
+      background: rgba(240,180,41,.08); border: 1px solid rgba(240,180,41,.25);
+      color: var(--text2);
+    }
+    .alert-gold i { color: var(--gold2); margin-right: 6px; }
+    .alert-red {
+      background: rgba(224,80,80,.08); border: 1px solid rgba(224,80,80,.25);
+      color: #e8b0b0;
+    }
+    .alert-red i { color: var(--red); margin-right: 6px; }
+    .alert-green {
+      background: rgba(109,186,122,.08); border: 1px solid rgba(109,186,122,.25);
+      color: #a8d8b0;
+    }
+    .alert-green i { color: var(--green); margin-right: 6px; }
+
+    /* ── Crypto payment form (Method C) ── */
+    .coin-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+      margin: 20px 0;
+    }
+    .coin-btn {
+      padding: 10px 6px; background: rgba(255,255,255,.04);
+      border: 1px solid var(--border2); border-radius: 2px;
+      color: var(--text2); font-size: .75rem; font-family: 'Cinzel', serif;
+      cursor: pointer; text-align: center; transition: all .2s;
+      letter-spacing: .03em;
+    }
+    .coin-btn:hover, .coin-btn.selected {
+      border-color: rgba(240,180,41,.4); color: var(--gold);
+      background: rgba(240,180,41,.08);
+    }
+    .coin-btn .coin-icon { font-size: 1.2rem; display: block; margin-bottom: 4px; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block; font-family: 'Cinzel', serif; font-size: .72rem;
+      letter-spacing: .08em; color: var(--text3); margin-bottom: 6px;
+    }
+    .form-input {
+      width: 100%; padding: 12px 16px;
+      background: rgba(0,0,0,.4); border: 1px solid var(--border2);
+      border-radius: 2px; color: var(--text); font-family: 'Crimson Text', serif;
+      font-size: .95rem; outline: none; transition: border-color .25s;
+    }
+    .form-input:focus { border-color: rgba(240,180,41,.4); }
+    .form-input::placeholder { color: var(--text3); }
+
+    .btn-pay-now {
+      width: 100%; padding: 16px;
+      background: linear-gradient(135deg, var(--amber), var(--gold));
+      color: #0a0500; border: none; border-radius: 2px;
+      font-family: 'Cinzel', serif; font-weight: 900; font-size: 1rem;
+      letter-spacing: .08em; cursor: pointer; transition: all .3s;
+      animation: fireGlow 3s infinite;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      margin-top: 8px;
+    }
+    .btn-pay-now:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(240,140,30,.5); }
+
+    /* ── Order summary sidebar ── */
+    .order-summary {
+      background: linear-gradient(145deg, rgba(20,10,5,.97), rgba(10,5,2,.99));
+      border: 1px solid rgba(240,180,41,.2);
+      border-radius: 4px; padding: 28px;
+      position: sticky; top: 80px;
+    }
+    .order-summary h3 {
+      font-family: 'Cinzel', serif; font-size: .88rem;
+      font-weight: 700; color: var(--text2); letter-spacing: .08em;
+      margin-bottom: 20px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .order-item { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .order-item .item-name { font-size: .88rem; color: var(--text2); }
+    .order-item .item-val { font-family: 'Orbitron', monospace; font-size: .85rem; color: var(--gold); }
+    .order-divider { height: 1px; background: var(--border); margin: 16px 0; }
+    .order-total { display: flex; justify-content: space-between; align-items: center; }
+    .order-total .total-label { font-family: 'Cinzel', serif; font-size: .9rem; color: var(--text); font-weight: 700; }
+    .order-total .total-val { font-family: 'Orbitron', monospace; font-size: 1.4rem; font-weight: 700; color: var(--gold); }
+    .order-features { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+    .order-feat { display: flex; align-items: center; gap: 10px; font-size: .82rem; color: var(--text3); }
+    .order-feat i { color: var(--green); width: 16px; flex-shrink: 0; }
+    .timer-compact {
+      margin-top: 20px; padding: 14px;
+      background: rgba(240,100,20,.08); border: 1px solid rgba(240,180,41,.15);
+      border-radius: 2px; text-align: center;
+    }
+    .timer-compact .t-label { font-family: 'Cinzel', serif; font-size: .7rem; letter-spacing: .08em; color: var(--text3); margin-bottom: 6px; }
+    .timer-compact .t-value { font-family: 'Orbitron', monospace; font-size: 1rem; color: var(--gold); font-weight: 700; }
+
+    /* ── "Already paid" form ── */
+    .already-paid-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; margin-top: 16px; padding: 11px;
+      background: transparent; border: 1px solid var(--border2);
+      border-radius: 2px; color: var(--text3); font-family: 'Cinzel', serif;
+      font-size: .78rem; letter-spacing: .05em; cursor: pointer; transition: all .2s;
+    }
+    .already-paid-btn:hover { border-color: var(--border3); color: var(--text2); }
+
+    /* ── Success Modal ── */
+    #successModal {
+      position: fixed; inset: 0; z-index: 99999;
+      background: rgba(0,0,0,.8); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    #successModal.show { display: flex; }
+    .success-box {
+      width: 100%; max-width: 460px;
+      background: linear-gradient(145deg, rgba(20,10,5,.98), rgba(10,5,2,.99));
+      border: 1px solid rgba(240,180,41,.3); border-radius: 4px;
+      padding: 48px 40px; text-align: center;
+      animation: slideDown .4s ease;
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+    }
+    .success-icon {
+      font-size: 3.5rem; margin-bottom: 16px;
+      animation: float 3s ease-in-out infinite;
+    }
+    .success-title {
+      font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 900;
+      color: var(--text); margin-bottom: 12px; letter-spacing: .04em;
+    }
+    .success-desc { color: var(--text2); font-size: .95rem; line-height: 1.7; margin-bottom: 28px; }
+    .success-close {
+      padding: 12px 32px; background: linear-gradient(135deg, var(--amber), var(--gold));
+      color: #0a0500; border: none; border-radius: 2px;
+      font-family: 'Cinzel', serif; font-weight: 900; font-size: .9rem;
+      letter-spacing: .06em; cursor: pointer; transition: all .3s;
+    }
+
+    /* ── Already paid modal ── */
+    #alreadyModal {
+      position: fixed; inset: 0; z-index: 99998;
+      background: rgba(0,0,0,.8); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    #alreadyModal.show { display: flex; }
+    .already-box {
+      width: 100%; max-width: 500px;
+      background: linear-gradient(145deg, rgba(20,10,5,.98), rgba(10,5,2,.99));
+      border: 1px solid rgba(240,180,41,.25); border-radius: 4px;
+      padding: 40px;
+      animation: slideDown .4s ease;
+    }
+    .already-box h3 {
+      font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 700;
+      color: var(--text); margin-bottom: 6px; letter-spacing: .04em;
+    }
+    .already-box p { color: var(--text3); font-size: .85rem; margin-bottom: 24px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .pay-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+      .coin-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .pay-card { padding: 20px; }
+      .pay-tabs { flex-direction: column; }
+      .coin-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Fire background ── -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- ══════════════════════════════════════
+     TOP NAV
+══════════════════════════════════════ -->
+<nav class="top-nav">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">᪻</div>
+    <span class="logo-text">НУМЕРОЛОГИЯ 7М</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">О курсе</a></li>
+    <li><a href="index.html#curriculum">Программа</a></li>
+    <li><a href="payment.html" class="active cta">Оплата</a></li>
+    <li><a href="cabinet.html">Кабинет</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════
+     PAGE HEADER
+══════════════════════════════════════ -->
+<header class="pay-header">
+  <div class="eyebrow">
+    <i class="fas fa-lock" style="color:var(--gold);font-size:.6rem"></i>
+    Защищённая страница оплаты
+  </div>
+  <h1>Выберите способ оплаты</h1>
+  <p style="color:var(--text2);margin-bottom:12px">Ведическая нумерология: Путь к своей Дхарме · Доступ открывается в течение 5–30 минут</p>
+</header>
+
+<!-- ══════════════════════════════════════
+     MAIN LAYOUT
+══════════════════════════════════════ -->
+<div class="pay-layout">
+
+  <!-- ─── LEFT: PAYMENT METHODS ─── -->
+  <div>
+
+    <!-- Tabs -->
+    <div class="pay-tabs">
+      <button class="pay-tab active" onclick="switchTab('bank',this)">
+        <span class="tab-icon">🏦</span>
+        <span class="tab-label">Банк / SEPA</span>
+        <span class="tab-sub">Европа · США · Мир</span>
+      </button>
+      <button class="pay-tab" onclick="switchTab('crypto',this)">
+        <span class="tab-icon">₮</span>
+        <span class="tab-label">USDT TRC-20</span>
+        <span class="tab-sub">СНГ · Быстро · Надёжно</span>
+      </button>
+      <button class="pay-tab" onclick="switchTab('multicoin',this)">
+        <span class="tab-icon">🔮</span>
+        <span class="tab-label">Крипто 20+ монет</span>
+        <span class="tab-sub">NOWPayments · Любая крипта</span>
+      </button>
+    </div>
+
+    <!-- ═══ TAB A — BANK / SEPA ═══ -->
+    <div id="tab-bank" class="tab-panel active">
+      <div class="pay-card">
+        <div class="pay-card-title">
+          <i class="fas fa-university"></i> Банковский перевод (SEPA / SWIFT / локальный)
+        </div>
+        <div class="pay-card-sub">Подходит для Европы, США, Турции, ОАЭ и большинства стран мира</div>
+
+        <!-- QR code -->
+        <div class="qr-wrap">
+          <div class="qr-box" id="qr-bank"></div>
+        </div>
+
+        <!-- Details table -->
+        <div style="background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:2px;padding:4px 16px;margin-bottom:8px">
+          <div class="detail-row">
+            <span class="detail-label">Получатель</span>
+            <span class="detail-value">Vedic Knowledge UG (haftungsbeschränkt)</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Банк</span>
+            <span class="detail-value">Commerzbank AG</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">IBAN</span>
+            <span class="detail-value" id="ibanVal">DE89 3704 0044 0532 0130 00</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">BIC / SWIFT</span>
+            <span class="detail-value">COBADEFFXXX</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Назначение</span>
+            <span class="detail-value">Vedic Numerology Course — <span id="bankRefCode">VN-2026</span></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Сумма</span>
+            <span class="detail-value" style="color:var(--gold);font-size:1rem" id="bankAmount">150 €</span>
+          </div>
+        </div>
+
+        <div class="copy-group">
+          <button class="btn-copy" onclick="copyText('DE89 3704 0044 0532 0130 00',this)">
+            <i class="fas fa-copy"></i> Скопировать IBAN
+          </button>
+          <button class="btn-copy" onclick="copyAllBank()">
+            <i class="fas fa-clone"></i> Скопировать все реквизиты
+          </button>
+        </div>
+
+        <div class="alert alert-gold">
+          <i class="fas fa-telegram"></i>
+          После оплаты пришлите скриншот/квитанцию в Telegram
+          <a href="https://t.me/vedic_support" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:600"> @vedic_support</a>
+          — доступ откроем в течение 1–3 рабочих дней.
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB B — USDT TRC-20 ═══ -->
+    <div id="tab-crypto" class="tab-panel">
+      <div class="pay-card">
+        <div class="pay-card-title">
+          <i class="fas fa-coins"></i> USDT TRC-20 — самый быстрый способ
+        </div>
+        <div class="pay-card-sub">Рекомендуется для России, Украины, Беларуси, Казахстана, Армении, Узбекистана, Кыргызстана и других стран СНГ</div>
+
+        <!-- QR code -->
+        <div class="qr-wrap">
+          <div class="qr-box" id="qr-crypto"></div>
+        </div>
+
+        <div style="background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:2px;padding:4px 16px;margin-bottom:8px">
+          <div class="detail-row">
+            <span class="detail-label">Сеть</span>
+            <span class="detail-value" style="color:var(--green)">TRON (TRC-20) ✓</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Адрес USDT</span>
+            <span class="detail-value" id="usdtAddr" style="font-size:.72rem">TLmVedicNumero7MKnowledge2026xQWR5</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Сумма</span>
+            <span class="detail-value" style="color:var(--gold);font-size:1rem" id="cryptoAmount">≈ 109 USDT</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Комиссия сети</span>
+            <span class="detail-value" style="color:var(--text3)">~1 USDT</span>
+          </div>
+        </div>
+
+        <div class="copy-group">
+          <button class="btn-copy" onclick="copyText('TLmVedicNumero7MKnowledge2026xQWR5',this)">
+            <i class="fas fa-copy"></i> Скопировать адрес
+          </button>
+          <button class="btn-copy" onclick="window.open('https://tronscan.org/#/address/TLmVedicNumero7MKnowledge2026xQWR5','_blank')">
+            <i class="fas fa-external-link-alt"></i> Проверить транзакцию
+          </button>
+        </div>
+
+        <div class="alert alert-red" style="margin-bottom:12px">
+          <i class="fas fa-exclamation-triangle"></i>
+          <strong>Важно!</strong> Отправляйте ТОЛЬКО USDT в сети TRON (TRC-20). Перевод в другой сети приведёт к потере средств.
+        </div>
+
+        <div class="alert alert-gold">
+          <i class="fas fa-telegram"></i>
+          После отправки напишите скриншот транзакции в
+          <a href="https://t.me/vedic_support" target="_blank" style="color:var(--gold);text-decoration:none;font-weight:600"> @vedic_support</a>
+          — доступ откроем в течение <strong>5–30 минут</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TAB C — MULTI-COIN (NOWPayments) ═══ -->
+    <div id="tab-multicoin" class="tab-panel">
+      <div class="pay-card">
+        <div class="pay-card-title">
+          <i class="fas fa-magic"></i> Оплата любой криптовалютой
+        </div>
+        <div class="pay-card-sub">Powered by NOWPayments · 20+ монет · мгновенное подтверждение</div>
+
+        <div class="coin-grid" id="coinGrid"></div>
+
+        <!-- Dynamic address area -->
+        <div id="coinAddressArea" style="display:none">
+          <div style="background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:2px;padding:4px 16px;margin-bottom:12px">
+            <div class="detail-row">
+              <span class="detail-label">Монета</span>
+              <span class="detail-value" id="selectedCoinName" style="color:var(--gold)">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Адрес</span>
+              <span class="detail-value" id="coinAddr" style="font-size:.72rem">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Сумма</span>
+              <span class="detail-value" id="coinAmountVal" style="color:var(--gold)">—</span>
+            </div>
+          </div>
+          <div class="qr-wrap">
+            <div class="qr-box" id="qr-multicoin"></div>
+          </div>
+          <div class="copy-group">
+            <button class="btn-copy" id="coinCopyBtn" onclick="copyCoinAddr()">
+              <i class="fas fa-copy"></i> Скопировать адрес
+            </button>
+          </div>
+          <div class="alert alert-green" style="margin-top:16px">
+            <i class="fas fa-check-circle"></i>
+            Адрес действителен 30 минут. После оплаты напишите в
+            <a href="https://t.me/vedic_support" target="_blank" style="color:var(--green);text-decoration:none;font-weight:600"> @vedic_support</a>.
+          </div>
+        </div>
+
+        <div id="coinSelectPrompt" style="padding:24px 0;text-align:center;color:var(--text3);font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.06em">
+          ⬆ Выберите монету выше для получения адреса
+        </div>
+
+        <!-- Email form to initiate -->
+        <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+          <div class="form-group">
+            <label class="form-label">Ваш email (для отправки ссылки на оплату)</label>
+            <input class="form-input" type="email" id="nowEmail" placeholder="your@email.com">
+          </div>
+          <button class="btn-pay-now" onclick="initiateNowPayment()">
+            <i class="fas fa-bolt"></i>&nbsp; Создать счёт на оплату
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── "Already paid" button ── -->
+    <button class="already-paid-btn" onclick="document.getElementById('alreadyModal').classList.add('show')">
+      <i class="fas fa-check-circle" style="color:var(--green)"></i>
+      Я уже оплатил — подтвердить оплату
+    </button>
+
+  </div><!-- end left col -->
+
+  <!-- ─── RIGHT: ORDER SUMMARY ─── -->
+  <div class="order-summary">
+    <h3><i class="fas fa-receipt" style="color:var(--gold2);margin-right:8px"></i>Ваш заказ</h3>
+
+    <div class="order-item">
+      <span class="item-name">Курс «Ведическая нумерология»</span>
+    </div>
+    <div class="order-item">
+      <span class="item-name" style="color:var(--text3);font-size:.82rem">28 лекций · 16 модулей</span>
+      <span class="item-val" style="font-size:.8rem">✓</span>
+    </div>
+    <div class="order-item">
+      <span class="item-name" style="color:var(--text3);font-size:.82rem">Пожизненный доступ</span>
+      <span class="item-val" style="font-size:.8rem">✓</span>
+    </div>
+    <div class="order-item">
+      <span class="item-name" style="color:var(--text3);font-size:.82rem">Чат поддержки</span>
+      <span class="item-val" style="font-size:.8rem">✓</span>
+    </div>
+    <div class="order-item">
+      <span class="item-name" style="color:var(--text3);font-size:.82rem">Сертификат</span>
+      <span class="item-val" style="font-size:.8rem">✓</span>
+    </div>
+
+    <div class="order-divider"></div>
+
+    <div class="order-total">
+      <span class="total-label">Итого</span>
+      <span class="total-val" id="summaryTotal">150 €</span>
+    </div>
+
+    <div class="order-features">
+      <div class="order-feat"><i class="fas fa-shield-alt"></i> Гарантия возврата 7 дней</div>
+      <div class="order-feat"><i class="fas fa-lock"></i> Безопасная оплата</div>
+      <div class="order-feat"><i class="fas fa-bolt"></i> Доступ за 5–30 минут</div>
+      <div class="order-feat"><i class="fas fa-infinity"></i> Пожизненный доступ</div>
+      <div class="order-feat"><i class="fas fa-headset"></i> Поддержка в Telegram</div>
+    </div>
+
+    <div class="timer-compact">
+      <div class="t-label">⏳ ЦЕНА ПОВЫШАЕТСЯ ЧЕРЕЗ</div>
+      <div class="t-value" id="sideTimer">—</div>
+    </div>
+
+    <div style="margin-top:20px;text-align:center">
+      <a href="index.html" style="color:var(--text3);font-size:.78rem;font-family:'Cinzel',serif;letter-spacing:.05em;text-decoration:none">
+        ← Вернуться к описанию курса
+      </a>
+    </div>
+  </div>
+
+</div><!-- end pay-layout -->
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer class="site-footer" style="padding-top:20px">
+  <div class="footer-runes">᛭ ᚾ ᚢ ᛗ ᛖ ᚱ ᛟ ᛚ ᛟ ᚷ ᛁ ᚨ ᛭</div>
+  <ul class="footer-links">
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="#" onclick="return false">Политика возврата</a></li>
+    <li><a href="https://t.me/vedic_numerology" target="_blank">@vedic_numerology</a></li>
+    <li><a href="https://t.me/vedic_support" target="_blank">@vedic_support</a></li>
+  </ul>
+  <p class="footer-copy">
+    © 2026 Vedic Knowledge UG (haftungsbeschränkt) · Все материалы защищены авторским правом<br>
+    <span style="font-size:.72rem">Регистрационный номер: HRB 220143 · Commerzbank AG, Frankfurt am Main</span>
+  </p>
+</footer>
+
+<!-- ══════════════════════════════════════
+     SUCCESS MODAL
+══════════════════════════════════════ -->
+<div id="successModal">
+  <div class="success-box">
+    <div class="success-icon">🎉</div>
+    <div class="success-title">Заявка принята!</div>
+    <p class="success-desc">
+      Ваша заявка на оплату зарегистрирована.<br>
+      После подтверждения платежа доступ к курсу придёт вам в Telegram или на email.<br><br>
+      <strong style="color:var(--gold)">Обычно это занимает 5–30 минут.</strong>
+    </p>
+    <button class="success-close" onclick="document.getElementById('successModal').classList.remove('show')">
+      <i class="fas fa-check"></i>&nbsp; Понятно, жду доступ
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ALREADY PAID MODAL
+══════════════════════════════════════ -->
+<div id="alreadyModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="already-box">
+    <button onclick="document.getElementById('alreadyModal').classList.remove('show')"
+      style="float:right;background:none;border:none;color:var(--text3);cursor:pointer;font-size:1.2rem">×</button>
+    <h3><i class="fas fa-check-circle" style="color:var(--green);margin-right:8px"></i>Подтверждение оплаты</h3>
+    <p>Заполните форму — мы откроем вам доступ в течение 5–30 минут</p>
+
+    <div class="form-group">
+      <label class="form-label">ФИО / Имя</label>
+      <input class="form-input" type="text" id="ap_name" placeholder="Ваше имя">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" type="email" id="ap_email" placeholder="your@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Telegram username</label>
+      <input class="form-input" type="text" id="ap_tg" placeholder="@username">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Способ оплаты</label>
+      <select class="form-input" id="ap_method">
+        <option>Банковский перевод (SEPA/SWIFT)</option>
+        <option>USDT TRC-20</option>
+        <option>Другая криптовалюта</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Скриншот/чек (файл)</label>
+      <input class="form-input" type="file" id="ap_file" accept="image/*,.pdf"
+        style="padding:8px 12px;cursor:pointer">
+    </div>
+    <button class="btn-pay-now" style="margin-top:8px" onclick="submitAlreadyPaid()">
+      <i class="fas fa-paper-plane"></i>&nbsp; Отправить подтверждение
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════ -->
+<script src="js/shared.js"></script>
+<script>
+  /* ── Detect currency ── */
+  (function detectCurrency() {
+    const lang = navigator.language || '';
+    let price = '150 €', usdtAmt = '≈ 109 USDT';
+    if (/^de|^nl|^fr|^es|^it|^pt|^pl/.test(lang)) { price = '99 €'; usdtAmt = '≈ 107 USDT'; }
+    else if (/^en-US|^en-CA/.test(lang)) { price = '$120'; usdtAmt = '≈ 120 USDT'; }
+    document.getElementById('bankAmount').textContent = price;
+    document.getElementById('cryptoAmount').textContent = usdtAmt;
+    document.getElementById('summaryTotal').textContent = price;
+    document.getElementById('heroPrice') && (document.getElementById('heroPrice').textContent = price);
+  })();
+
+  /* ── Countdown ── */
+  startCountdown('sideTimer', '2026-03-25T23:59:59');
+
+  /* ── Generate reference code ── */
+  document.getElementById('bankRefCode').textContent =
+    'VN-' + Math.random().toString(36).substr(2,6).toUpperCase();
+
+  /* ── QR Codes ── */
+  new QRCode(document.getElementById('qr-bank'), {
+    text: 'BCD\n001\n1\nSCT\nCOBADEFFXXX\nVedic Knowledge UG\nDE89370400440532013000\nEUR99\n\nVedic Numerology Course',
+    width: 180, height: 180,
+    colorDark: '#000000', colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  new QRCode(document.getElementById('qr-crypto'), {
+    text: 'TLmVedicNumero7MKnowledge2026xQWR5',
+    width: 180, height: 180,
+    colorDark: '#000000', colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.M
+  });
+
+  /* ── Tab switching ── */
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.pay-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  /* ── Copy all bank details ── */
+  function copyAllBank() {
+    const text = `Получатель: Vedic Knowledge UG (haftungsbeschränkt)\nБанк: Commerzbank AG\nIBAN: DE89 3704 0044 0532 0130 00\nBIC/SWIFT: COBADEFFXXX\nНазначение: Vedic Numerology Course`;
+    navigator.clipboard.writeText(text).then(() => showToast('Все реквизиты скопированы!', 'gold'));
+  }
+
+  /* ── Coin list for multi-coin tab ── */
+  const coins = [
+    { sym:'BTC',  icon:'₿',  name:'Bitcoin',  addr:'bc1qvedic7mnumero1234567890abcdef12345' },
+    { sym:'ETH',  icon:'Ξ',  name:'Ethereum', addr:'0xVedicNumero7M1234567890AbCdEf1234567890' },
+    { sym:'USDT', icon:'₮',  name:'USDT ERC', addr:'0xVedicUSDT7M1234567890AbCdEf1234567890Ab' },
+    { sym:'BNB',  icon:'⬡',  name:'BNB',      addr:'bnb1vedic7mnumero1234567890abcdefgh' },
+    { sym:'SOL',  icon:'◎',  name:'Solana',   addr:'VedicNumerology7MSolanaAddr1234567890' },
+    { sym:'TRX',  icon:'T',  name:'TRON',     addr:'TVedicNumerology7M12345678901234' },
+    { sym:'LTC',  icon:'Ł',  name:'Litecoin', addr:'LVedicNumerology7MAddr1234567890' },
+    { sym:'XRP',  icon:'✕',  name:'Ripple',   addr:'rVedicNumerology7MAddr1234567890' },
+  ];
+
+  const coinGrid = document.getElementById('coinGrid');
+  coins.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'coin-btn';
+    btn.innerHTML = `<span class="coin-icon">${c.icon}</span>${c.sym}`;
+    btn.onclick = () => selectCoin(c, btn);
+    coinGrid.appendChild(btn);
+  });
+
+  let multiQR = null;
+  function selectCoin(coin, btn) {
+    document.querySelectorAll('.coin-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('selectedCoinName').textContent = `${coin.name} (${coin.sym})`;
+    document.getElementById('coinAddr').textContent = coin.addr;
+    document.getElementById('coinAmountVal').textContent = coin.sym === 'BTC' ? '≈ 0.0012 BTC' :
+      coin.sym === 'ETH' ? '≈ 0.038 ETH' : '≈ 109 ' + coin.sym;
+    document.getElementById('coinSelectPrompt').style.display = 'none';
+    document.getElementById('coinAddressArea').style.display = 'block';
+    // Regenerate QR
+    const qrEl = document.getElementById('qr-multicoin');
+    qrEl.innerHTML = '';
+    new QRCode(qrEl, { text: coin.addr, width: 180, height: 180, colorDark:'#000', colorLight:'#fff', correctLevel: QRCode.CorrectLevel.M });
+  }
+
+  function copyCoinAddr() {
+    const addr = document.getElementById('coinAddr').textContent;
+    if (addr !== '—') {
+      navigator.clipboard.writeText(addr).then(() => showToast('Адрес скопирован!', 'gold'));
+    }
+  }
+
+  /* ── NOWPayments initiation (demo) ── */
+  function initiateNowPayment() {
+    const email = document.getElementById('nowEmail').value.trim();
+    if (!email) { showToast('Введите ваш email', 'error'); return; }
+    const coin = document.querySelector('.coin-btn.selected');
+    if (!coin) { showToast('Сначала выберите монету', 'error'); return; }
+    showToast('Счёт на оплату создан! Ссылка отправлена на ' + email, 'gold');
+    setTimeout(() => {
+      launchConfetti();
+      document.getElementById('successModal').classList.add('show');
+    }, 1200);
+  }
+
+  /* ── Already paid submit (demo) ── */
+  function submitAlreadyPaid() {
+    const name  = document.getElementById('ap_name').value.trim();
+    const email = document.getElementById('ap_email').value.trim();
+    if (!name || !email) { showToast('Заполните имя и email', 'error'); return; }
+    document.getElementById('alreadyModal').classList.remove('show');
+    launchConfetti();
+    showToast('Подтверждение отправлено! Ожидайте доступ в течение 5–30 минут.', 'success');
+  }
+</script>
+</body>
+</html>

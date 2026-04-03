@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Нумерология 7М · Ведическая нумерология — открой код своей судьбы</title>
+  <meta name="description" content="Полный курс ведической нумерологии. 28 лекций, матрица судьбы, совместимость, предназначение. Пожизненный доступ."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/shared.css">
+  <style>
+    /* ══════════════════════════════════════
+       INDEX PAGE — SPECIFIC STYLES
+    ══════════════════════════════════════ */
+
+    /* ── Hero Section ── */
+    .hero {
+      position: relative; z-index: 5;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 80px 2rem 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Rotating mandala / numbers background */
+    .hero-mandala {
+      position: absolute; inset: 0; z-index: 0;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; opacity: .06;
+    }
+    .hero-mandala svg {
+      width: min(700px, 90vw); height: min(700px, 90vw);
+      animation: spin 90s linear infinite;
+    }
+
+    /* Floating numbers */
+    .float-num {
+      position: absolute; font-family: 'Orbitron', monospace;
+      font-weight: 900; pointer-events: none;
+      animation: float 4s ease-in-out infinite;
+      opacity: .12; color: var(--gold);
+      user-select: none;
+    }
+
+    .hero-inner { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 6px 18px;
+      background: rgba(240,180,41,.08);
+      border: 1px solid rgba(240,180,41,.2);
+      border-radius: 2px;
+      font-family: 'Cinzel', serif; font-size: .75rem;
+      letter-spacing: .12em; color: var(--gold2);
+      margin-bottom: 32px;
+    }
+
+    .hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 900; line-height: 1.1;
+      margin-bottom: 24px; letter-spacing: .02em;
+    }
+    .hero h1 .line1 {
+      display: block;
+      background: linear-gradient(135deg, #fff8e0, var(--gold), #ff8c00);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmerGold 5s linear infinite;
+    }
+    .hero h1 .line2 { display: block; color: var(--text2); font-size: .65em; margin-top: 8px; font-weight: 600; }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text2); max-width: 620px; margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .hero-pills {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      justify-content: center; margin-bottom: 44px;
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 16px;
+      background: rgba(240,180,41,.07);
+      border: 1px solid rgba(240,180,41,.18);
+      border-radius: 2px;
+      font-family: 'Cinzel', serif; font-size: .75rem;
+      color: var(--text2); letter-spacing: .05em;
+    }
+    .pill i { color: var(--gold2); }
+
+    .hero-cta {
+      display: flex; flex-wrap: wrap; gap: 14px;
+      justify-content: center; margin-bottom: 60px;
+    }
+    .btn-hero-primary {
+      padding: 16px 40px;
+      background: linear-gradient(135deg, var(--amber), var(--gold));
+      color: #0a0500; border: none; border-radius: 2px;
+      font-family: 'Cinzel', serif; font-weight: 900;
+      font-size: 1rem; letter-spacing: .08em;
+      cursor: pointer; text-decoration: none;
+      box-shadow: 0 6px 32px rgba(240,140,30,.4);
+      transition: all .3s;
+      animation: fireGlow 3s infinite;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+    .btn-hero-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 48px rgba(240,140,30,.6);
+    }
+    .btn-hero-secondary {
+      padding: 15px 32px;
+      background: transparent;
+      border: 1px solid var(--border3);
+      color: var(--text2);
+      border-radius: 2px;
+      font-family: 'Cinzel', serif; font-size: .88rem;
+      letter-spacing: .06em; cursor: pointer; text-decoration: none;
+      transition: all .3s;
+    }
+    .btn-hero-secondary:hover {
+      border-color: var(--gold2); color: var(--gold); background: var(--gold-d);
+    }
+
+    /* Price badge */
+    .price-badge {
+      display: inline-flex; flex-direction: column; align-items: center;
+      padding: 20px 40px;
+      background: linear-gradient(145deg, rgba(30,15,5,.97), rgba(15,7,2,.99));
+      border: 1px solid rgba(240,180,41,.3);
+      border-radius: 4px;
+      box-shadow: 0 0 60px rgba(200,100,10,.12);
+    }
+    .price-badge .price-label { font-size: .78rem; color: var(--text3); font-family: 'Cinzel', serif; letter-spacing: .1em; margin-bottom: 6px; }
+    .price-badge .price-main { font-family: 'Orbitron', monospace; font-size: 2.4rem; font-weight: 700; color: var(--gold); }
+    .price-badge .price-sub  { font-size: .8rem; color: var(--text3); margin-top: 4px; }
+
+    /* ── Section shared ── */
+    .section { position: relative; z-index: 5; padding: 80px 2rem; }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-label {
+      display: inline-block;
+      font-family: 'Cinzel', serif; font-size: .72rem;
+      letter-spacing: .18em; color: var(--gold2);
+      margin-bottom: 16px; text-transform: uppercase;
+    }
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 900; letter-spacing: .03em;
+      background: linear-gradient(135deg, #fff8e0, var(--gold2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+    .section-desc { color: var(--text2); font-size: 1.05rem; max-width: 540px; margin: 0 auto; }
+
+    /* ── Features Grid ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px; max-width: 1100px; margin: 0 auto;
+    }
+    .feature-card {
+      background: linear-gradient(145deg, rgba(20,10,5,.97), rgba(10,5,2,.99));
+      border: 1px solid var(--border2);
+      border-radius: 4px; padding: 32px 28px;
+      transition: all .35s;
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+    }
+    .feature-card:hover {
+      border-color: rgba(240,180,41,.35);
+      box-shadow: 0 0 40px rgba(240,140,30,.1);
+      transform: translateY(-4px);
+    }
+    .feature-icon {
+      width: 52px; height: 52px; margin-bottom: 20px;
+      background: linear-gradient(135deg, rgba(240,140,30,.15), rgba(240,180,41,.08));
+      border: 1px solid rgba(240,180,41,.2);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; color: var(--gold);
+    }
+    .feature-title {
+      font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 700;
+      color: var(--text); margin-bottom: 10px; letter-spacing: .04em;
+    }
+    .feature-desc { font-size: .95rem; color: var(--text2); line-height: 1.65; }
+
+    /* ── Curriculum ── */
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px; max-width: 1100px; margin: 0 auto;
+    }
+    .module-card {
+      background: rgba(10,5,2,.8);
+      border: 1px solid var(--border);
+      border-radius: 4px; padding: 20px 24px;
+      display: flex; gap: 16px; align-items: flex-start;
+      transition: border-color .3s;
+    }
+    .module-card:hover { border-color: rgba(240,180,41,.25); }
+    .module-num {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--amber), var(--gold));
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron', monospace; font-size: .8rem;
+      font-weight: 700; color: #0a0500;
+    }
+    .module-info .module-title {
+      font-family: 'Cinzel', serif; font-size: .88rem; font-weight: 700;
+      color: var(--text); margin-bottom: 4px; letter-spacing: .03em;
+    }
+    .module-info .module-sub { font-size: .82rem; color: var(--text3); }
+
+    /* ── Testimonials ── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px; max-width: 1000px; margin: 0 auto;
+    }
+    .testi-card {
+      background: linear-gradient(145deg, rgba(20,10,5,.97), rgba(10,5,2,.99));
+      border: 1px solid var(--border2);
+      border-radius: 4px; padding: 28px 24px;
+    }
+    .testi-stars { color: var(--gold); font-size: 1rem; margin-bottom: 14px; letter-spacing: 2px; }
+    .testi-text { font-size: 1rem; color: var(--text2); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--amber), var(--gold));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cinzel', serif; font-weight: 700; font-size: .9rem; color: #0a0500;
+    }
+    .testi-name { font-family: 'Cinzel', serif; font-size: .85rem; color: var(--text); font-weight: 600; }
+    .testi-city { font-size: .78rem; color: var(--text3); }
+
+    /* ── CTA Banner ── */
+    .cta-banner {
+      position: relative; z-index: 5;
+      max-width: 900px; margin: 0 auto 80px;
+      background: linear-gradient(145deg, rgba(25,12,3,.98), rgba(12,6,2,.99));
+      border: 1px solid rgba(240,180,41,.3);
+      border-radius: 4px; padding: 60px 40px;
+      text-align: center;
+      box-shadow: 0 0 80px rgba(200,100,10,.12);
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+    }
+    .cta-banner h2 {
+      font-family: 'Cinzel', serif; font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 900; color: var(--text); margin-bottom: 16px;
+      letter-spacing: .03em;
+    }
+    .cta-banner p { color: var(--text2); font-size: 1.05rem; margin-bottom: 36px; }
+
+    /* ── Timer ── */
+    .timer-bar {
+      position: relative; z-index: 5;
+      background: rgba(240,100,20,.08);
+      border-top: 1px solid rgba(240,180,41,.15);
+      border-bottom: 1px solid rgba(240,180,41,.15);
+      padding: 14px 2rem; text-align: center;
+      font-family: 'Cinzel', serif; font-size: .82rem;
+      color: var(--text2); letter-spacing: .06em;
+    }
+    .timer-bar .countdown {
+      font-family: 'Orbitron', monospace; font-weight: 700;
+      color: var(--gold); font-size: 1rem; letter-spacing: .1em;
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s, transform .7s; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── FAQ ── */
+    .faq-list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item {
+      background: rgba(10,5,2,.8); border: 1px solid var(--border2);
+      border-radius: 4px; overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; text-align: left; padding: 20px 24px;
+      background: none; border: none; color: var(--text);
+      font-family: 'Cinzel', serif; font-size: .9rem; letter-spacing: .03em;
+      cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      transition: color .2s;
+    }
+    .faq-q:hover { color: var(--gold); }
+    .faq-q .faq-icon { color: var(--gold2); transition: transform .3s; flex-shrink: 0; }
+    .faq-q.open .faq-icon { transform: rotate(45deg); }
+    .faq-a {
+      display: none; padding: 0 24px 20px;
+      color: var(--text2); font-size: .95rem; line-height: 1.7;
+      border-top: 1px solid var(--border);
+    }
+    .faq-a.open { display: block; animation: fadeIn .3s ease; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     FIRE BACKGROUND
+══════════════════════════════════════ -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- ══════════════════════════════════════
+     TOP NAVIGATION
+══════════════════════════════════════ -->
+<nav class="top-nav">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">᪻</div>
+    <span class="logo-text">НУМЕРОЛОГИЯ 7М</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Программа</a></li>
+    <li><a href="#curriculum">Уроки</a></li>
+    <li><a href="#testimonials">Отзывы</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="payment.html" class="cta">Купить курс</a></li>
+    <li><a href="cabinet.html">Кабинет</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO SECTION
+══════════════════════════════════════ -->
+<section class="hero">
+  <!-- Mandala background -->
+  <div class="hero-mandala">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#f0b429" stroke-width="0.5">
+        <circle cx="200" cy="200" r="180"/>
+        <circle cx="200" cy="200" r="140"/>
+        <circle cx="200" cy="200" r="100"/>
+        <circle cx="200" cy="200" r="60"/>
+        <circle cx="200" cy="200" r="20"/>
+        <!-- Petals -->
+        <g transform="rotate(0,200,200)"><ellipse cx="200" cy="110" rx="15" ry="40"/></g>
+        <g transform="rotate(40,200,200)"><ellipse cx="200" cy="110" rx="15" ry="40"/></g>
+        <g transform="rotate(80,200,200)"><ellipse cx="200" cy="110" rx="15" ry="40"/></g>
+        <g transform="rotate(120,200,200)"><ellipse cx="200" cy="110" rx="15" ry="40"/></g>
+        <g transform="rotate(160,200,200)"><ellipse cx="200" cy="110" rx="15" ry="40"/></g>
+        <g transform="rotate(200,200,200)"><ellipse cx="200" cy="110" rx="15" ry="40"/></g>
+        <g transform="rotate(240,200,200)"><ellipse cx="200" cy="110" rx="15" ry="40"/></g>
+        <g transform="rotate(280,200,200)"><ellipse cx="200" cy="110" rx="15" ry="40"/></g>
+        <g transform="rotate(320,200,200)"><ellipse cx="200" cy="110" rx="15" ry="40"/></g>
+        <!-- Star of 9 -->
+        <polygon points="200,30 215,170 350,200 215,230 200,370 185,230 50,200 185,170" stroke-opacity="0.5"/>
+        <!-- Lines through center -->
+        <line x1="200" y1="30" x2="200" y2="370"/>
+        <line x1="30" y1="200" x2="370" y2="200"/>
+        <line x1="73" y1="73" x2="327" y2="327"/>
+        <line x1="327" y1="73" x2="73" y2="327"/>
+        <line x1="30" y1="120" x2="370" y2="280"/>
+        <line x1="30" y1="280" x2="370" y2="120"/>
+        <line x1="120" y1="30" x2="280" y2="370"/>
+        <line x1="280" y1="30" x2="120" y2="370"/>
+      </g>
+      <!-- Numbers 1-9 around the circle -->
+      <g fill="#f0b429" font-family="Orbitron" font-size="14" font-weight="700" text-anchor="middle">
+        <text x="200" y="26">1</text>
+        <text x="318" y="74">2</text>
+        <text x="374" y="205">3</text>
+        <text x="318" y="334">4</text>
+        <text x="200" y="382">5</text>
+        <text x="82" y="334">6</text>
+        <text x="26" y="205">7</text>
+        <text x="82" y="74">8</text>
+        <text x="200" y="130">9</text>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Floating numbers -->
+  <span class="float-num" style="left:8%;top:25%;font-size:3rem;animation-delay:0s">1</span>
+  <span class="float-num" style="left:15%;top:60%;font-size:2rem;animation-delay:.5s">7</span>
+  <span class="float-num" style="right:10%;top:30%;font-size:2.5rem;animation-delay:1s">9</span>
+  <span class="float-num" style="right:18%;top:65%;font-size:1.8rem;animation-delay:1.5s">3</span>
+  <span class="float-num" style="left:42%;top:15%;font-size:1.5rem;animation-delay:2s">6</span>
+
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <i class="fas fa-star" style="color:var(--gold);font-size:.65rem"></i>
+      Ведическая нумерология · Курс 2026 года
+    </div>
+
+    <h1>
+      <span class="line1">Ведическая нумерология</span>
+      <span class="line2">Открой код своей судьбы</span>
+    </h1>
+
+    <p class="hero-sub">
+      Полное погружение в числа ведической традиции · 12–16 модулей · 28 лекций ·
+      Матрица судьбы, совместимость, предназначение, Дхарма · Пожизненный доступ + чат поддержки
+    </p>
+
+    <div class="hero-pills">
+      <span class="pill"><i class="fas fa-infinity"></i> Пожизненный доступ</span>
+      <span class="pill"><i class="fas fa-video"></i> 28 видеолекций</span>
+      <span class="pill"><i class="fas fa-comments"></i> Чат поддержки</span>
+      <span class="pill"><i class="fas fa-certificate"></i> Сертификат</span>
+      <span class="pill"><i class="fas fa-globe"></i> Любое устройство</span>
+    </div>
+
+    <div class="hero-cta">
+      <a href="payment.html" class="btn-hero-primary">
+        <i class="fas fa-fire"></i>&nbsp; Купить курс — <span id="heroPrice">150 €</span>
+      </a>
+      <a href="#curriculum" class="btn-hero-secondary">
+        <i class="fas fa-book-open"></i>&nbsp; Посмотреть программу
+      </a>
+    </div>
+
+    <div style="display:flex;justify-content:center">
+      <div class="price-badge">
+        <div class="price-label">⚡ СПЕЦИАЛЬНАЯ ЦЕНА</div>
+        <div class="price-main" id="badgePrice">150 €</div>
+        <div class="price-sub">Цена повышается 25 марта · Экономия 40%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     WHAT YOU GET — FEATURES
+══════════════════════════════════════ -->
+<section class="section" id="features">
+  <div class="section-header reveal">
+    <div class="section-label">✦ Что вы получите</div>
+    <h2 class="section-title">Полная карта вашей судьбы</h2>
+    <p class="section-desc">Каждый модуль — это практический инструмент, который вы сможете применять сразу после изучения</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon"><i class="fas fa-th-large"></i></div>
+      <div class="feature-title">Матрица судьбы</div>
+      <div class="feature-desc">Ведическая система числового анализа личности. Узнайте скрытые программы, таланты и кармические задачи вашей жизни.</div>
+    </div>
+    <div class="feature-card reveal" style="animation-delay:.1s">
+      <div class="feature-icon"><i class="fas fa-heart"></i></div>
+      <div class="feature-title">Совместимость</div>
+      <div class="feature-desc">Числовой анализ партнёрства и отношений. Почему одни союзы созданы для роста, а другие — для испытаний.</div>
+    </div>
+    <div class="feature-card reveal" style="animation-delay:.2s">
+      <div class="feature-icon"><i class="fas fa-dharmachakra"></i></div>
+      <div class="feature-title">Дхарма и предназначение</div>
+      <div class="feature-desc">Раскройте своё истинное предназначение через числа даты рождения. Дхарма — это ваш уникальный путь в этой жизни.</div>
+    </div>
+    <div class="feature-card reveal" style="animation-delay:.3s">
+      <div class="feature-icon"><i class="fas fa-calendar-alt"></i></div>
+      <div class="feature-title">Личные годы и циклы</div>
+      <div class="feature-desc">Навигация по 9-летним циклам судьбы. Знайте заранее, когда действовать, а когда восстанавливаться.</div>
+    </div>
+    <div class="feature-card reveal" style="animation-delay:.4s">
+      <div class="feature-icon"><i class="fas fa-star-of-david"></i></div>
+      <div class="feature-title">Три гуны и планеты</div>
+      <div class="feature-desc">Связь ведических чисел с планетарными энергиями и тремя гунами: Тамас, Раджас, Саттва.</div>
+    </div>
+    <div class="feature-card reveal" style="animation-delay:.5s">
+      <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div class="feature-title">Сертификат + поддержка</div>
+      <div class="feature-desc">Сертификат об окончании курса и доступ в закрытый чат поддержки с практикующими нумерологами.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CURRICULUM
+══════════════════════════════════════ -->
+<section class="section" id="curriculum" style="padding-top:20px">
+  <div class="section-header reveal">
+    <div class="section-label">✦ Программа курса</div>
+    <h2 class="section-title">28 лекций · 16 модулей</h2>
+    <p class="section-desc">Полная структура от основ до продвинутых техник ведической нумерологии</p>
+  </div>
+  <div class="curriculum-grid">
+    <div class="module-card reveal"><div class="module-num">1</div><div class="module-info"><div class="module-title">Введение в ведическую нумерологию</div><div class="module-sub">2 лекции · История, философия, базовые принципы</div></div></div>
+    <div class="module-card reveal"><div class="module-num">2</div><div class="module-info"><div class="module-title">Три гуны и планеты</div><div class="module-sub">2 лекции · Тамас, Раджас, Саттва + 9 планет</div></div></div>
+    <div class="module-card reveal"><div class="module-num">3</div><div class="module-info"><div class="module-title">Числа 1–9: глубокий разбор</div><div class="module-sub">3 лекции · Архетипы, вибрации, проявления</div></div></div>
+    <div class="module-card reveal"><div class="module-num">4</div><div class="module-info"><div class="module-title">Мастер-числа 11, 22, 33</div><div class="module-sub">2 лекции · Высшие вибрации и особые пути</div></div></div>
+    <div class="module-card reveal"><div class="module-num">5</div><div class="module-info"><div class="module-title">Число Дня рождения</div><div class="module-sub">2 лекции · Ваш основной код и его проявления</div></div></div>
+    <div class="module-card reveal"><div class="module-num">6</div><div class="module-info"><div class="module-title">Жизненный путь (Дхарма)</div><div class="module-sub">2 лекции · Расчёт и интерпретация Дхармы</div></div></div>
+    <div class="module-card reveal"><div class="module-num">7</div><div class="module-info"><div class="module-title">Матрица судьбы</div><div class="module-sub">3 лекции · Построение и чтение матрицы</div></div></div>
+    <div class="module-card reveal"><div class="module-num">8</div><div class="module-info"><div class="module-title">Числа имени</div><div class="module-sub">2 лекции · Душа, личность, выражение</div></div></div>
+    <div class="module-card reveal"><div class="module-num">9</div><div class="module-info"><div class="module-title">Совместимость и отношения</div><div class="module-sub">2 лекции · Числовой анализ партнёрства</div></div></div>
+    <div class="module-card reveal"><div class="module-num">10</div><div class="module-info"><div class="module-title">Личные годы и циклы</div><div class="module-sub">2 лекции · 9-летние циклы и навигация</div></div></div>
+    <div class="module-card reveal"><div class="module-num">11</div><div class="module-info"><div class="module-title">Карьера и деньги</div><div class="module-sub">2 лекции · Числа успеха и финансовые коды</div></div></div>
+    <div class="module-card reveal"><div class="module-num">12</div><div class="module-info"><div class="module-title">Практика: полный разбор</div><div class="module-sub">2 лекции · Реальные консультации + разборы</div></div></div>
+  </div>
+  <div style="text-align:center;margin-top:40px" class="reveal">
+    <a href="payment.html" class="btn btn-gold" style="padding:15px 44px;font-size:1rem">
+      <i class="fas fa-unlock"></i>&nbsp; Получить доступ ко всем урокам
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════ -->
+<section class="section" id="testimonials">
+  <div class="section-header reveal">
+    <div class="section-label">✦ Отзывы учеников</div>
+    <h2 class="section-title">Более 1 200 человек прошли курс</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">«Этот курс изменил моё понимание себя. Матрица судьбы показала то, что я чувствовала всю жизнь, но не могла сформулировать. Теперь я консультирую клиентов сама.»</p>
+      <div class="testi-author"><div class="testi-avatar">А</div><div><div class="testi-name">Анастасия К.</div><div class="testi-city">Москва, Россия</div></div></div>
+    </div>
+    <div class="testi-card reveal" style="animation-delay:.1s">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">«Практичный курс без воды. Всё чётко, структурированно, с реальными примерами. Рекомендую всем, кто серьёзно занимается эзотерикой.»</p>
+      <div class="testi-author"><div class="testi-avatar">Д</div><div><div class="testi-name">Дмитрий Р.</div><div class="testi-city">Берлин, Германия</div></div></div>
+    </div>
+    <div class="testi-card reveal" style="animation-delay:.2s">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">«Прошла уже 4 курса по нумерологии — этот самый глубокий. Ведическая система намного богаче западной. Поддержка куратора — на высшем уровне.»</p>
+      <div class="testi-author"><div class="testi-avatar">О</div><div><div class="testi-name">Оксана Л.</div><div class="testi-city">Киев, Украина</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FAQ
+══════════════════════════════════════ -->
+<section class="section" id="faq">
+  <div class="section-header reveal">
+    <div class="section-label">✦ Частые вопросы</div>
+    <h2 class="section-title">Ответы на ваши вопросы</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Нужны ли специальные знания для прохождения курса?
+        <i class="fas fa-plus faq-icon"></i>
+      </button>
+      <div class="faq-a">Нет, курс разработан с нуля. Первые модули объясняют все базовые понятия. Подходит как для начинающих, так и для тех, кто уже знаком с нумерологией.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Как долго у меня будет доступ к материалам?
+        <i class="fas fa-plus faq-icon"></i>
+      </button>
+      <div class="faq-a">Пожизненно. После оплаты доступ к урокам и материалам остаётся у вас навсегда, включая все будущие обновления курса.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Как происходит оплата из России / СНГ?
+        <i class="fas fa-plus faq-icon"></i>
+      </button>
+      <div class="faq-a">Принимаем USDT TRC-20 (крипта), а также банковский перевод (SEPA/SWIFT). Полные реквизиты и инструкция на странице оплаты. После перевода просто пришлите чек в Telegram.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Есть ли возврат денег?
+        <i class="fas fa-plus faq-icon"></i>
+      </button>
+      <div class="faq-a">Да, в течение 7 дней после оплаты, если вы прошли менее 20% курса. Для возврата напишите в @vedic_support с указанием причины.</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Когда откроется доступ к курсу?
+        <i class="fas fa-plus faq-icon"></i>
+      </button>
+      <div class="faq-a">В течение 5–30 минут после подтверждения оплаты. Доступ приходит в Telegram-бот или на email — на ваш выбор.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CTA BANNER
+══════════════════════════════════════ -->
+<div style="padding:0 2rem;position:relative;z-index:5">
+  <div class="cta-banner reveal">
+    <div class="ornament" style="margin-bottom:20px">᛭ ᚨ ᚱ ᚲ ᚨ ᚾ ᚨ ᛭</div>
+    <h2>Начните путь к своей Дхарме сегодня</h2>
+    <p>Специальная цена действует ещё <span id="ctaTimer" style="color:var(--gold);font-family:'Orbitron',monospace;font-weight:700">...</span></p>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center">
+      <a href="payment.html" class="btn-hero-primary">
+        <i class="fas fa-bolt"></i>&nbsp; Купить курс за <span id="ctaPrice">150 €</span>
+      </a>
+      <a href="cabinet.html" class="btn-hero-secondary">Войти в кабинет</a>
+    </div>
+    <p style="margin-top:24px;font-size:.82rem;color:var(--text3)">
+      <i class="fas fa-lock" style="margin-right:6px;color:var(--gold2)"></i>
+      Безопасная оплата · Пожизненный доступ · Поддержка 24/7
+    </p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-runes">᛭ ᚾ ᚢ ᛗ ᛖ ᚱ ᛟ ᛚ ᛟ ᚷ ᛁ ᚨ ᛭</div>
+  <ul class="footer-links">
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="payment.html">Оплата</a></li>
+    <li><a href="cabinet.html">Кабинет</a></li>
+    <li><a href="#faq">Возврат</a></li>
+    <li><a href="https://t.me/vedic_numerology" target="_blank">Telegram</a></li>
+  </ul>
+  <p class="footer-copy">
+    © 2026 Нумерология 7М · Vedic Knowledge UG (haftungsbeschränkt)<br>
+    <span style="font-size:.72rem">Все материалы защищены авторским правом · По вопросам: @vedic_support</span>
+  </p>
+</footer>
+
+<!-- ══════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════ -->
+<script src="js/shared.js"></script>
+<script>
+  /* ── Detect region → show currency ── */
+  (function detectCurrency() {
+    const lang = navigator.language || '';
+    let price = '150 €';
+    if (/^de|^nl|^fr|^es|^it|^pt|^pl/.test(lang)) price = '99 €';
+    else if (/^en-US|^en-CA/.test(lang)) price = '$120';
+    document.querySelectorAll('#heroPrice,#badgePrice,#ctaPrice').forEach(el => el.textContent = price);
+  })();
+
+  /* ── Countdown ── */
+  startCountdown('globalCountdown', '2026-03-25T23:59:59');
+  startCountdown('ctaTimer', '2026-03-25T23:59:59');
+
+  /* ── Scroll reveal ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ── FAQ toggle ── */
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+    // close all
+    document.querySelectorAll('.faq-q.open').forEach(b => {
+      b.classList.remove('open');
+      b.nextElementSibling.classList.remove('open');
+    });
+    if (!isOpen) {
+      btn.classList.add('open');
+      answer.classList.add('open');
+    }
+  }
+</script>
+</body>
+</html>

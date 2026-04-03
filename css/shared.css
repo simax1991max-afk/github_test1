@@ -1,0 +1,359 @@
+/* ═══════════════════════════════════════════════════════════════
+   НУМЕРОЛОГИЯ 7М · SHARED DESIGN SYSTEM
+   Fonts: Cinzel (заголовки) + Crimson Text (текст)
+   Тема: Мистическая золотая — тёмная
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Orbitron:wght@400;500;700;900&display=swap');
+
+:root {
+  /* Backgrounds */
+  --bg:       #050305;
+  --bg2:      #0a0608;
+  --bg3:      #110a08;
+  --bg4:      #1a0f0a;
+  --bg5:      #221408;
+
+  /* Borders */
+  --border:   #2d1a08;
+  --border2:  #3d2410;
+  --border3:  #5a3515;
+
+  /* Gold palette */
+  --gold:      #f0b429;
+  --gold2:     #d4890a;
+  --gold3:     #ffd870;
+  --gold-glow: rgba(240,180,41,0.15);
+  --gold-d:    rgba(240,180,41,0.08);
+
+  /* Accent colours */
+  --amber:   #ff8c00;
+  --fire:    #ff4500;
+
+  /* Text */
+  --text:    #f5e8c8;
+  --text2:   #c4a96a;
+  --text3:   #7a5a30;
+
+  /* Semantic */
+  --green:   #6dba7a;
+  --red:     #e05050;
+  --blue:    #6090d0;
+  --purple:  #9060c8;
+
+  /* Misc */
+  --rune-color: rgba(240,180,41,0.06);
+
+  /* Typography */
+  --font-display: 'Cinzel', serif;
+  --font-body:    'Crimson Text', Georgia, serif;
+  --font-mono:    'Orbitron', monospace;
+
+  /* Layout */
+  --max-w: 1440px;
+  --radius: 4px;
+  --radius-sm: 2px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  font-family: var(--font-body);
+  color: var(--text);
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Fire particle canvas ── */
+#particle-canvas {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; opacity: 0.5;
+  background: transparent;
+}
+
+/* ── Ambient glow overlay ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 15% 85%, rgba(240,100,20,.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 15%, rgba(240,180,41,.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(15,5,0,0.4) 0%, transparent 80%);
+}
+
+/* ── Content layer ── */
+.wrapper, .dashboard, .page-content {
+  position: relative; z-index: 5;
+  max-width: var(--max-w); margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+}
+
+/* ════════════════════════════════════
+   KEYFRAMES
+════════════════════════════════════ */
+@keyframes fireGlow {
+  0%,100% { box-shadow: 0 0 8px rgba(240,140,30,.3), 0 0 20px rgba(240,100,10,.12); }
+  50%      { box-shadow: 0 0 22px rgba(240,180,41,.55), 0 0 45px rgba(240,120,20,.22); }
+}
+@keyframes shimmerGold {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulseRune {
+  0%,100% { opacity: .15; transform: scale(1); }
+  50%      { opacity: .4; transform: scale(1.05); }
+}
+@keyframes borderFlow {
+  0%   { border-color: rgba(240,180,41,0.2); }
+  50%  { border-color: rgba(240,180,41,0.6); }
+  100% { border-color: rgba(240,180,41,0.2); }
+}
+@keyframes spin    { to { transform: rotate(360deg); } }
+@keyframes float {
+  0%,100% { transform: translateY(0);    }
+  50%      { transform: translateY(-6px); }
+}
+@keyframes embersRise {
+  0%   { opacity: 0; transform: translateY(0) scale(0.8); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-60px) scale(0.3); }
+}
+@keyframes glowPulse {
+  0%,100% { box-shadow: 0 0 5px rgba(240,180,41,.3); }
+  50%      { box-shadow: 0 0 25px rgba(240,180,41,.75); }
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(-10px) rotate(0deg); opacity:1; }
+  100% { transform: translateY(120vh) rotate(720deg); opacity:0; }
+}
+
+/* ════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+════════════════════════════════════ */
+.gold-text {
+  background: linear-gradient(135deg, #fff8e0, var(--gold), #ff8c00);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerGold 4s linear infinite;
+}
+
+.cinzel { font-family: var(--font-display); }
+.orbitron { font-family: var(--font-mono); }
+
+/* ════════════════════════════════════
+   BUTTON COMPONENTS
+════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 24px;
+  border: none; border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-weight: 700; font-size: .9rem; letter-spacing: .06em;
+  cursor: pointer; transition: all .3s; text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--amber), var(--gold));
+  color: #0a0500;
+  box-shadow: 0 4px 20px rgba(240,140,30,.35);
+}
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(240,140,30,.5);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border3);
+  color: var(--text2);
+}
+.btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-d);
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border2);
+  color: var(--text3);
+}
+
+/* ════════════════════════════════════
+   CARD / BOX COMPONENTS
+════════════════════════════════════ */
+.card {
+  background: linear-gradient(145deg, rgba(20,10,5,0.97), rgba(10,5,2,0.99));
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: border-color .3s, box-shadow .3s;
+}
+.card:hover {
+  border-color: rgba(240,180,41,0.3);
+  box-shadow: 0 0 30px rgba(240,140,30,.08);
+}
+
+.card-gold {
+  border-color: rgba(240,180,41,0.25);
+  box-shadow: 0 0 40px rgba(200,100,10,0.1);
+}
+
+/* Clipped corners */
+.clip-corner {
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+}
+.clip-corner-sm {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+
+/* ════════════════════════════════════
+   DIVIDERS & ORNAMENTS
+════════════════════════════════════ */
+.divider {
+  display: flex; align-items: center; gap: 16px;
+  color: var(--text3); font-size: .8rem; margin: 24px 0;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border2), transparent);
+}
+
+.ornament {
+  text-align: center; color: var(--gold2);
+  font-size: .75rem; letter-spacing: 1rem; opacity: .4;
+  margin: 8px 0;
+}
+
+/* ════════════════════════════════════
+   NAVIGATION BAR (shared top nav)
+════════════════════════════════════ */
+.top-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(5,3,5,.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  animation: slideDown .4s ease;
+}
+
+.top-nav .logo {
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none;
+}
+.top-nav .logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--amber), var(--gold));
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: #0a0500;
+  animation: fireGlow 3s infinite;
+  flex-shrink: 0;
+}
+.top-nav .logo-text {
+  font-family: var(--font-display);
+  font-weight: 900; font-size: 1rem;
+  letter-spacing: .1em;
+  background: linear-gradient(135deg, #fff8e0, var(--gold), var(--amber));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerGold 4s linear infinite;
+}
+.top-nav .nav-links {
+  display: flex; align-items: center; gap: 8px;
+  list-style: none;
+}
+.top-nav .nav-links a {
+  padding: 6px 14px;
+  font-family: var(--font-display);
+  font-size: .78rem; letter-spacing: .06em;
+  color: var(--text3); text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: all .2s;
+}
+.top-nav .nav-links a:hover,
+.top-nav .nav-links a.active {
+  color: var(--gold); background: var(--gold-d);
+}
+.top-nav .nav-links a.cta {
+  background: linear-gradient(135deg, var(--amber), var(--gold));
+  color: #0a0500;
+  font-weight: 700;
+}
+.top-nav .nav-links a.cta:hover {
+  box-shadow: 0 4px 16px rgba(240,140,30,.35);
+}
+
+/* ════════════════════════════════════
+   FOOTER (shared)
+════════════════════════════════════ */
+.site-footer {
+  position: relative; z-index: 5;
+  border-top: 1px solid var(--border);
+  padding: 48px 2rem 32px;
+  text-align: center;
+}
+.site-footer .footer-runes {
+  font-size: .8rem; letter-spacing: 1.2rem;
+  color: rgba(240,180,41,.15);
+  margin-bottom: 20px;
+  animation: pulseRune 6s infinite;
+}
+.site-footer .footer-links {
+  display: flex; flex-wrap: wrap;
+  align-items: center; justify-content: center; gap: 8px 24px;
+  margin-bottom: 20px;
+  list-style: none;
+}
+.site-footer .footer-links a {
+  color: var(--text3); font-size: .83rem; text-decoration: none;
+  font-family: var(--font-display); letter-spacing: .04em;
+  transition: color .2s;
+}
+.site-footer .footer-links a:hover { color: var(--gold2); }
+.site-footer .footer-copy {
+  color: var(--text3); font-size: .78rem; line-height: 1.8;
+}
+
+/* ════════════════════════════════════
+   FIRE PARTICLES SCRIPT (embedded)
+════════════════════════════════════ */
+/* Particle canvas initialized via shared.js */
+
+/* ════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════ */
+@media (max-width: 768px) {
+  .wrapper, .dashboard, .page-content {
+    padding: 1rem 1rem 3rem;
+  }
+  .top-nav { padding: 0 1rem; }
+  .top-nav .nav-links { gap: 4px; }
+  .top-nav .nav-links a { padding: 5px 10px; font-size: .72rem; }
+}
+@media (max-width: 480px) {
+  .top-nav .logo-text { display: none; }
+}
